@@ -24,20 +24,22 @@ try
 {
     Log.Information("Iniciando Task Management API");
 
-    // Cargar archivo .env
-    Env.Load("../.env");
+    // Cargar archivo .env SOLO si existe (local)
+    var envPath = "../.env";
+    if (File.Exists(envPath))
+    {
+        Log.Information("Archivo .env encontrado, cargando variables locales");
+        Env.Load(envPath);
+    }
+    else
+    {
+        Log.Information("Archivo .env no encontrado, usando variables de entorno del sistema (Railway)");
+    }
 
     var builder = WebApplication.CreateBuilder(args);
+    
     Console.WriteLine("====== ENTORNO DETECTADO ======");
     Console.WriteLine($"ASPNETCORE_ENVIRONMENT: {builder.Environment.EnvironmentName}");
-
-    Console.WriteLine("====== VARIABLES DE CONFIGURACIÓN ======");
-    Console.WriteLine($"JWT_KEY encontrada: {builder.Configuration["JWT_KEY"] is not null}");
-    Console.WriteLine($"JWT_KEY length: {builder.Configuration["JWT_KEY"]?.Length}");
-    Console.WriteLine($"JWT_ISSUER: {builder.Configuration["JWT_ISSUER"]}");
-    Console.WriteLine($"CONNECTION_STRING encontrada: {builder.Configuration["CONNECTION_STRING"] is not null}");
-    Console.WriteLine($"CONNECTION_STRING length: {builder.Configuration["CONNECTION_STRING"]?.Length}");
-    Console.WriteLine("===========================================");
 
     // Configurar puerto para Railway
     var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
@@ -46,8 +48,16 @@ try
     // Configurar Serilog como el logger principal 
     builder.Host.UseSerilog();
 
-    // Configurar para leer variables de entorno
+    // Configurar para leer variables de entorno del sistema (IMPORTANTE para Railway)
     builder.Configuration.AddEnvironmentVariables();
+
+    Console.WriteLine("====== VARIABLES DE CONFIGURACIÓN ======");
+    Console.WriteLine($"JWT_KEY encontrada: {builder.Configuration["JWT_KEY"] is not null}");
+    Console.WriteLine($"JWT_KEY length: {builder.Configuration["JWT_KEY"]?.Length}");
+    Console.WriteLine($"JWT_ISSUER: {builder.Configuration["JWT_ISSUER"]}");
+    Console.WriteLine($"CONNECTION_STRING encontrada: {builder.Configuration["CONNECTION_STRING"] is not null}");
+    Console.WriteLine($"CONNECTION_STRING length: {builder.Configuration["CONNECTION_STRING"]?.Length}");
+    Console.WriteLine("===========================================");
 
     // debugging variables
     Log.Information("=== DEBUGGING VARIABLES ===");
