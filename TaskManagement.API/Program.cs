@@ -28,7 +28,10 @@ try
     Env.Load();
 
     var builder = WebApplication.CreateBuilder(args);
-    
+
+    // Configurar para leer variables de entorno
+    builder.Configuration.AddEnvironmentVariables();
+
     Console.WriteLine("====== ENTORNO DETECTADO ======");
     Console.WriteLine($"ASPNETCORE_ENVIRONMENT: {builder.Environment.EnvironmentName}");
 
@@ -46,9 +49,6 @@ try
 
     // Configurar Serilog como el logger principal 
     builder.Host.UseSerilog();
-
-    // Configurar para leer variables de entorno
-    builder.Configuration.AddEnvironmentVariables();
 
     // debugging variables
     Log.Information("=== DEBUGGING VARIABLES ===");
