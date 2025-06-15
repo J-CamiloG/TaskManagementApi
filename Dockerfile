@@ -20,4 +20,9 @@ RUN dotnet publish "TaskManagement.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Asegurar que las variables de entorno se pasen correctamente
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:8080
+
 ENTRYPOINT ["dotnet", "TaskManagement.API.dll"]
