@@ -39,6 +39,15 @@ try
     // Configurar para leer variables de entorno
     builder.Configuration.AddEnvironmentVariables();
 
+    // debugging variables
+    Log.Information("=== DEBUGGING VARIABLES ===");
+    Log.Information("JWT_KEY encontrada: {Found}", !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("JWT_KEY")));
+    Log.Information("JWT_KEY length: {Length}", Environment.GetEnvironmentVariable("JWT_KEY")?.Length ?? 0);
+    Log.Information("JWT_ISSUER: {Issuer}", Environment.GetEnvironmentVariable("JWT_ISSUER"));
+    Log.Information("CONNECTION_STRING encontrada: {Found}", !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CONNECTION_STRING")));
+    Log.Information("ASPNETCORE_ENVIRONMENT: {Env}", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+    Log.Information("=== END DEBUGGING ===");
+
     // añadir servicios al contenedor
     builder.Services.AddControllers();
 
