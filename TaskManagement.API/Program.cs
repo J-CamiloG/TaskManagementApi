@@ -28,6 +28,17 @@ try
     Env.Load();
 
     var builder = WebApplication.CreateBuilder(args);
+    
+    Console.WriteLine("====== ENTORNO DETECTADO ======");
+    Console.WriteLine($"ASPNETCORE_ENVIRONMENT: {builder.Environment.EnvironmentName}");
+
+    Console.WriteLine("====== VARIABLES DE CONFIGURACIÓN ======");
+    Console.WriteLine($"JWT_KEY encontrada: {builder.Configuration["JWT_KEY"] is not null}");
+    Console.WriteLine($"JWT_KEY length: {builder.Configuration["JWT_KEY"]?.Length}");
+    Console.WriteLine($"JWT_ISSUER: {builder.Configuration["JWT_ISSUER"]}");
+    Console.WriteLine($"CONNECTION_STRING encontrada: {builder.Configuration["CONNECTION_STRING"] is not null}");
+    Console.WriteLine($"CONNECTION_STRING length: {builder.Configuration["CONNECTION_STRING"]?.Length}");
+    Console.WriteLine("===========================================");
 
     // Configurar puerto para Railway
     var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
