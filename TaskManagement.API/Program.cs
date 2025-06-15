@@ -29,6 +29,10 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
+    // Configurar puerto para Railway
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
     // Configurar Serilog como el logger principal 
     builder.Host.UseSerilog();
 
@@ -139,7 +143,7 @@ try
 
     // Health check endpoint 
     app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));
-    
+
     Log.Information("Task Management API iniciada correctamente");
     app.Run();
 }
