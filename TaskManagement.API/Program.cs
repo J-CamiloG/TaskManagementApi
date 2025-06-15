@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using FluentValidation;
 using TaskManagement.Application.Interfaces;
 using TaskManagement.Application.Services;
 using TaskManagement.Domain.Interfaces;
 using TaskManagement.Infrastructure.Data;
+using TaskManagement.Application.Validators;
 using TaskManagement.Infrastructure.Repositories;
 using TaskManagement.Infrastructure.Services;
 
@@ -43,6 +45,10 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(TaskManagement.Application.Mappings.MappingProfile));
+
+// FluentValidation 
+builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskDtoValidator>();
+
 
 // JWT 
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
