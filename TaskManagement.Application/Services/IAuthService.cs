@@ -8,4 +8,4 @@ namespace TaskManagement.Application.Services
         Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);
         Task<bool> UserExistsAsync(string email);
     }
-}
+}        
